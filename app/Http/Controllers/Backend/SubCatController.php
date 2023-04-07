@@ -94,7 +94,6 @@ class SubCatController extends Controller
         }
 
         $subCat->slug = Str::slug(request('slug'));
-        
         $subCat->save();
         return redirect()->route('sub.category');
     }

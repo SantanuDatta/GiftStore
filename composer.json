@@ -10,7 +10,8 @@
         "intervention/image": "^2.7.2",
         "laravel/framework": "^10.5.1",
         "laravel/sanctum": "^3.2.1",
-        "laravel/tinker": "^2.8.1"
+        "laravel/tinker": "^2.8.1",
+        "maatwebsite/excel": "^3.1"
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.8.1",

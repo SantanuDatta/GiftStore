@@ -43,7 +43,7 @@
                 <ul>
                     <li> <a href="{{ route('product.manage') }}"><i class="bi bi-circle"></i>Manage All Products</a>
                     </li>
-                    <li> <a href="{{ route('product.add') }}"><i class="bi bi-circle"></i>Add New Product</a>
+                    <li> <a href="{{ route('product.create') }}"><i class="bi bi-circle"></i>Add New Product</a>
                     </li>
                 </ul>
             </li>

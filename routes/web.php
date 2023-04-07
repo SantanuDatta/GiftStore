@@ -57,7 +57,10 @@ Route::prefix('/admin')->group(function () {
 
     Route::prefix('/product')->group(function(){
         Route::get('/', [ProductController::class, 'index'])->name('product.manage');
-        Route::get('/add', [ProductController::class, 'create'])->name('product.add');
+        Route::get('/create', [ProductController::class, 'create'])->name('product.create');
+        Route::post('/store', [ProductController::class, 'store'])->name('product.store');
+        Route::post('/import', [ProductController::class, 'import'])->name('product.import');
+        Route::get('/export', [ProductController::class, 'export'])->name('product.export');
     });
 
     // Fallback route

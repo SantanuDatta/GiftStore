@@ -160,119 +160,119 @@
                                                                         data-bs-dismiss="modal"
                                                                         aria-label="Close"></button>
                                                                 </div>
-                <form action="{{ route('main.update', $category) }}"
-                    method="POST" enctype="multipart/form-data"
-                    class="edit-main-cat" novalidate>
-                    @csrf
-                    @method('PATCH')
-                    <div class="modal-body">
-                        <div class="shadow-none bg-light border w-100">
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label class="form-label">Name</label>
-                                    <input type="text"
-                                        class="form-control @error('name') is-invalid @enderror"
-                                        name="name"
-                                        value="{{ $category->name }}"
-                                        placeholder="Category name">
-                                    @error('name')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group mt-3">
-                                    <label class="form-label">Slug</label>
-                                    <input type="text" name="slug"
-                                        class="form-control @error('slug') is-invalid @enderror"
-                                        value="{{ $category->slug }}"
-                                        placeholder="Slug name">
-                                    @error('slug')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group mt-3">
-                                    <label
-                                        class="form-label">Description</label>
-                                    <textarea class="form-control" rows="4" cols="3" placeholder="Main Category Description"
-                                        name="description">{{ $category->description }}</textarea>
-                                </div>
-                                <div class="form-group mt-3">
-                                    <label for="">Feature Main
-                                        Category?</label><br>
-                                    <div class="form-check-inline">
-                                        <label
-                                            class="rdiobox rdiobox-info">
-                                            <input name="is_featured"
-                                                type="radio"
-                                                value="1"
-                                                class="form-check-input"
-                                                @if ($category->is_featured == 1) checked @endif>
-                                            <span>Enable</span>
-                                        </label>
-                                    </div>
-                                    <div class="form-check-inline">
-                                        <label
-                                            class="rdiobox rdiobox-info">
-                                            <input name="is_featured"
-                                                type="radio"
-                                                value="0"class="form-check-input"
-                                                @if ($category->is_featured == 0) checked @endif>
-                                            <span>Disable</span>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="form-group mt-3">
-                                    <label class="form-label"
-                                        for="edit-main-cat-img">Image
-                                        Upload
-                                        [Optional]</label>
-                                    @if (!is_null($category->image))
-                                        <div class="border p-1">
-                                            <img class="img-fluid"
-                                                style="width: 30%;text-align: center;display: block;margin: 5px auto;"
-                                                src="{{ asset('backend/img/categories/' . $category->image) }}"
-                                                alt="">
-                                        </div>
-                                    @endif
-                                    <input type="file"
-                                        id="edit-main-cat-img"
-                                        name="image"
-                                        class="form-control">
-                                    @error('image')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}</div>
-                                    @enderror
-                                </div>
-                                <div class="form-group mt-3">
-                                    <label for="status">Do You Want To
-                                        Publish This Category?</label>
-                                    <select name="status" id="status"
-                                        class="form-select mb-3 @error('status') is-invalid @enderror">
-                                        <option value="" hidden>
-                                            Please Select Status</option>
-                                        <option value="0"
-                                            @selected($category->status || old('status') == 0)>
-                                            Draft</option>
-                                        <option value="1"
-                                            @selected($category->status || old('status') == 1)>
-                                            Publish</option>
-                                    </select>
-                                    @error('status')
-                                        <div class="invalid-feedback">
-                                            {{ $message }}</div>
-                                    @enderror
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary"
-                            data-bs-dismiss="modal">Close</button>
-                        <button type="submit" name="updateMain"
-                            class="btn btn-primary">Update changes</button>
-                    </div>
-                </form>
+                                                                <form action="{{ route('main.update', $category) }}"
+                                                                    method="POST" enctype="multipart/form-data"
+                                                                    class="edit-main-cat" novalidate>
+                                                                    @csrf
+                                                                    @method('PATCH')
+                                                                    <div class="modal-body">
+                                                                        <div class="shadow-none bg-light border w-100">
+                                                                            <div class="card-body">
+                                                                                <div class="form-group">
+                                                                                    <label class="form-label">Name</label>
+                                                                                    <input type="text"
+                                                                                        class="form-control @error('name') is-invalid @enderror"
+                                                                                        name="name"
+                                                                                        value="{{ $category->name }}"
+                                                                                        placeholder="Category name">
+                                                                                    @error('name')
+                                                                                        <div class="invalid-feedback">
+                                                                                            {{ $message }}</div>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="form-group mt-3">
+                                                                                    <label class="form-label">Slug</label>
+                                                                                    <input type="text" name="slug"
+                                                                                        class="form-control @error('slug') is-invalid @enderror"
+                                                                                        value="{{ $category->slug }}"
+                                                                                        placeholder="Slug name">
+                                                                                    @error('slug')
+                                                                                        <div class="invalid-feedback">
+                                                                                            {{ $message }}</div>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="form-group mt-3">
+                                                                                    <label
+                                                                                        class="form-label">Description</label>
+                                                                                    <textarea class="form-control" rows="4" cols="3" placeholder="Main Category Description"
+                                                                                        name="description">{{ $category->description }}</textarea>
+                                                                                </div>
+                                                                                <div class="form-group mt-3">
+                                                                                    <label for="">Feature Main
+                                                                                        Category?</label><br>
+                                                                                    <div class="form-check-inline">
+                                                                                        <label
+                                                                                            class="rdiobox rdiobox-info">
+                                                                                            <input name="is_featured"
+                                                                                                type="radio"
+                                                                                                value="1"
+                                                                                                class="form-check-input"
+                                                                                                @if ($category->is_featured == 1) checked @endif>
+                                                                                            <span>Enable</span>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                    <div class="form-check-inline">
+                                                                                        <label
+                                                                                            class="rdiobox rdiobox-info">
+                                                                                            <input name="is_featured"
+                                                                                                type="radio"
+                                                                                                value="0"class="form-check-input"
+                                                                                                @if ($category->is_featured == 0) checked @endif>
+                                                                                            <span>Disable</span>
+                                                                                        </label>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="form-group mt-3">
+                                                                                    <label class="form-label"
+                                                                                        for="edit-main-cat-img">Image
+                                                                                        Upload
+                                                                                        [Optional]</label>
+                                                                                    @if (!is_null($category->image))
+                                                                                        <div class="border p-1">
+                                                                                            <img class="img-fluid"
+                                                                                                style="width: 30%;text-align: center;display: block;margin: 5px auto;"
+                                                                                                src="{{ asset('backend/img/categories/' . $category->image) }}"
+                                                                                                alt="">
+                                                                                        </div>
+                                                                                    @endif
+                                                                                    <input type="file"
+                                                                                        id="edit-main-cat-img"
+                                                                                        name="image"
+                                                                                        class="form-control">
+                                                                                    @error('image')
+                                                                                        <div class="invalid-feedback">
+                                                                                            {{ $message }}</div>
+                                                                                    @enderror
+                                                                                </div>
+                                                                                <div class="form-group mt-3">
+                                                                                    <label for="status">Do You Want To
+                                                                                        Publish This Category?</label>
+                                                                                    <select name="status" id="status"
+                                                                                        class="form-select mb-3 @error('status') is-invalid @enderror">
+                                                                                        <option value="" hidden>
+                                                                                            Please Select Status</option>
+                                                                                        <option value="0"
+                                                                                            @selected($category->status || old('status') == 0)>
+                                                                                            Draft</option>
+                                                                                        <option value="1"
+                                                                                            @selected($category->status || old('status') == 1)>
+                                                                                            Publish</option>
+                                                                                    </select>
+                                                                                    @error('status')
+                                                                                        <div class="invalid-feedback">
+                                                                                            {{ $message }}</div>
+                                                                                    @enderror
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="modal-footer">
+                                                                        <button type="button" class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal">Close</button>
+                                                                        <button type="submit" name="updateMain"
+                                                                            class="btn btn-primary">Update changes</button>
+                                                                    </div>
+                                                                </form>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -322,23 +322,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            // Get the modal element
-            var modal = document.getElementById('view-{{ $category->slug }}');
-
-            // When the modal is closed, clear any validation errors
-            modal.addEventListener('hidden.bs.modal', function(event) {
-                $('.invalid-feedback').remove();
-                $('.is-invalid').removeClass('is-invalid');
-            });
-
-            // Show the modal if there are validation errors
-            @if (count($errors) > 0)
-                $(modal).modal('show');
-            @endif
-        });
-    </script>
-@endpush

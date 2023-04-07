@@ -124,8 +124,8 @@
                                     <thead class="table-dark">
                                         <tr>
                                             <th>ID</th>
-                                            <th>Name</th>
                                             <th>Image</th>
+                                            <th>Name</th>
                                             <th>Main Category</th>
                                             <th>Price</th>
                                             <th>Discount</th>
@@ -194,9 +194,8 @@
                                                         </a>
                                                     </div>
                                                     <!-- View Modal -->
-                                                    <div class="modal fade"
-                                                        id="view-{{ $category->slug }}" tabindex="-1"
-                                                        aria-hidden="true">
+                                                    <div class="modal fade" id="view-{{ $category->slug }}"
+                                                        tabindex="-1" aria-hidden="true">
                                                         <div class="modal-dialog modal-dialog-centered">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
@@ -415,23 +414,3 @@
         </div>
     </div>
 @endsection
-
-@push('scripts')
-    <script>
-        $(document).ready(function() {
-            // Get the modal element
-            var modal = document.getElementById(`view-{{ $category->slug }}`);
-
-            // When the modal is closed, clear any validation errors
-            modal.addEventListener('hidden.bs.modal', function(event) {
-                $('.invalid-feedback').remove();
-                $('.is-invalid').removeClass('is-invalid');
-            });
-
-            // Show the modal if there are validation errors
-            @if (count($errors) > 0)
-                $(modal).modal('show');
-            @endif
-        });
-    </script>
-@endpush
