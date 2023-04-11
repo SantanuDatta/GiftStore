@@ -5,7 +5,7 @@ namespace App\Exports;
 use App\Models\Product;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
-class ProductExport implements FromCollection
+class CodeExport implements FromCollection
 {
     protected $products;
 
@@ -13,7 +13,6 @@ class ProductExport implements FromCollection
     {
         $this->products = $products;
     }
-
 
     /**
     * @return \Illuminate\Support\Collection

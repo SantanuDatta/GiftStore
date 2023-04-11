@@ -61,6 +61,8 @@ Route::prefix('/admin')->group(function () {
         Route::post('/store', [ProductController::class, 'store'])->name('product.store');
         Route::post('/import', [ProductController::class, 'import'])->name('product.import');
         Route::get('/export', [ProductController::class, 'export'])->name('product.export');
+        Route::patch('/update/{product}', [ProductController::class, 'update'])->name('product.update');
+        Route::delete('/delete/{product}', [ProductController::class, 'destroy'])->name('product.delete');
     });
 
     // Fallback route

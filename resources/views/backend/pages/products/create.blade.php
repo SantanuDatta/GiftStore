@@ -13,6 +13,12 @@
                 </ol>
             </nav>
         </div>
+        @php
+            $parentCat = App\Models\Category::with(['products', 'parentCategory', 'childrenCat'])
+                ->where('is_parent', 0)
+                ->orderBy('name', 'asc')
+                ->get();
+        @endphp
         <div class="ms-auto">
             <div class="btn-group">
                 <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#importModal">Import
@@ -42,10 +48,10 @@
                                 <div class="col-12">
                                     <label for="category_id" class="form-label">Category</label>
                                     <select class="form-select" name="category_id" id="category_id">
-                                        @foreach (App\Models\Category::where('is_parent', 0)->orderBy('name', 'asc')->get() as $pCat)
+                                        @foreach ($parentCat as $pCat)
                                             <option value="{{ $pCat->id }}" disabled>{{ $pCat->name }}
                                             </option>
-                                            @foreach (App\Models\Category::where('is_parent', $pCat->id)->orderBy('name', 'asc')->get() as $childCat)
+                                            @foreach ($pCat->childrenCat as $childCat)
                                                 <option value="{{ $childCat->id }}">&#8627;
                                                     {{ $childCat->name }}</option>
                                             @endforeach
@@ -107,10 +113,10 @@
                                             <div class="col-12">
                                                 <label for="category_id" class="form-label">Category</label>
                                                 <select class="form-select mb-3" name="category_id" id="category_id">
-                                                    @foreach (App\Models\Category::where('is_parent', 0)->orderBy('name', 'asc')->get() as $pCat)
+                                                    @foreach ($parentCat as $pCat)
                                                         <option value="{{ $pCat->id }}" disabled>{{ $pCat->name }}
                                                         </option>
-                                                        @foreach (App\Models\Category::where('is_parent', $pCat->id)->orderBy('name', 'asc')->get() as $childCat)
+                                                        @foreach ($pCat->childrenCat as $childCat)
                                                             <option value="{{ $childCat->id }}">&#8627;
                                                                 {{ $childCat->name }}</option>
                                                         @endforeach

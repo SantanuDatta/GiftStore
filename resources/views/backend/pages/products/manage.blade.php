@@ -45,10 +45,10 @@
                                 <div class="col-12">
                                     <label for="category_id" class="form-label">Category</label>
                                     <select class="form-select" name="category_id" id="category_id">
-                                        @foreach (App\Models\Category::where('is_parent', 0)->orderBy('name', 'asc')->get() as $pCat)
+                                        @foreach ($categories as $pCat)
                                             <option value="{{ $pCat->id }}" disabled>{{ $pCat->name }}
                                             </option>
-                                            @foreach (App\Models\Category::where('is_parent', $pCat->id)->orderBy('name', 'asc')->get() as $childCat)
+                                            @foreach ($pCat->childrenCat as $childCat)
                                                 <option value="{{ $childCat->id }}">&#8627;
                                                     {{ $childCat->name }}</option>
                                             @endforeach
@@ -104,12 +104,105 @@
                                 </td>
                                 <td>
                                     <div class="d-flex align-items-center gap-3 fs-6">
-                                        <a href="javascript:;" class="text-warning" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" title="" data-bs-original-title="Edit info"
-                                            aria-label="Edit"><i class="bi bi-pencil-fill"></i></a>
-                                        <a href="javascript:;" class="text-danger" data-bs-toggle="tooltip"
-                                            data-bs-placement="bottom" title="" data-bs-original-title="Delete"
-                                            aria-label="Delete"><i class="bi bi-trash-fill"></i></a>
+                                        <a href="javascript:;" class="text-warning" data-bs-toggle="modal"
+                                            data-bs-target="#edit-{{ $product->id }}" aria-label="Edit"><i
+                                                class="bi bi-pencil-fill"></i></a>
+                                        <a href="javascript:;" class="text-danger" data-bs-toggle="modal"
+                                            data-bs-target="#delete-{{ $product->id }}" aria-label="Delete"><i
+                                                class="bi bi-trash-fill"></i></a>
+                                    </div>
+                                    {{-- Edit Modal --}}
+                                    <div class="modal fade" id="edit-{{ $product->id }}" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered" aria-hidden="true">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Edit Code Summery</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ route('product.update', $product) }}" method="POST">
+                                                    @csrf
+                                                    @method('PATCH')
+                                                    <div class="modal-body">
+                                                        <div class="shadow-none bg-light border w-100">
+                                                            <div class="card-body">
+                                                                <div class="form-group">
+                                                                    <label class="form-label" for="code">Code</label>
+                                                                    <input type="text" class="form-control"
+                                                                        name="code" value="{{ $product->code }}"
+                                                                        id="code">
+                                                                </div>
+                                                                <div class="form-group mt-3">
+                                                                    <label for="category_id"
+                                                                        class="form-label">Category</label>
+                                                                    <select class="form-select" name="category_id"
+                                                                        id="category_id">
+                                                                        @foreach ($categories as $pCat)
+                                                                            <option value="{{ $pCat->id }}" disabled>
+                                                                                {{ $pCat->name }}
+                                                                            </option>
+                                                                            @foreach ($pCat->childrenCat as $childCat)
+                                                                                <option value="{{ $childCat->id }}"
+                                                                                    @selected($childCat->id == $product->category_id || old('category_id') == $childCat->id)>
+                                                                                    &#8627; {{ $childCat->name }}
+                                                                                </option>
+                                                                            @endforeach
+                                                                        @endforeach
+                                                                    </select>
+                                                                </div>
+                                                                <div class="form-group mt-3">
+                                                                    <label class="form-label"
+                                                                        for="status">Status</label>
+                                                                    <select name="status" id="status"
+                                                                        class="form-select mb-3 @error('status') is-invalid @enderror">
+                                                                        <option value="" hidden>
+                                                                            Please Select Status</option>
+                                                                        <option value="0"
+                                                                            @selected($product->status || old('status') == 0)>
+                                                                            Redeemed</option>
+                                                                        <option value="1"
+                                                                            @selected($product->status || old('status') == 1)>
+                                                                            Redeemable</option>
+                                                                    </select>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <input type="submit" name="updateCode" class="btn btn-primary"
+                                                            value="Update Changes">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {{-- Delete Modal --}}
+                                    <div class="modal fade" id="delete-{{ $product->id }}" tabindex="-1">
+                                        <div class="modal-dialog modal-dialog-centered" aria-hidden="true">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5 class="modal-title">Delete This Code</h5>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <form action="{{ route('product.delete', $product) }}" method="POST">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <div class="modal-body">
+                                                        <p>Are You Sure You Want To Delete This Code?</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary"
+                                                            data-bs-dismiss="modal">Close</button>
+                                                        <input type="submit" name="deleteCode" class="btn btn-danger"
+                                                            value="Delete Code">
+                                                    </div>
+                                                </form>
+                                            </div>
+                                        </div>
                                     </div>
                                 </td>
                             </tr>

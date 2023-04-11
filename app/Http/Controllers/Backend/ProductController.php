@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers\Backend;
 
-use App\Exports\ProductExport;
+use App\Exports\CodeExport;
 use App\Http\Controllers\Controller;
 use App\Imports\CodeImport;
+use App\Models\Category;
 use App\Models\Product;
 use Carbon\Carbon;
 use Excel;
@@ -13,17 +14,18 @@ use Illuminate\Database\QueryException;
 
 class ProductController extends Controller
 {
-    protected function validateProduct()
+    protected function validateProduct($id = null)
     {
         $rules = [
             'category_id' => 'required|exists:categories,id',
+            'status' => 'required',
         ];
 
         // Add the 'file' and 'mimes' rules only if a file has been uploaded
         if (request()->hasFile('code')) {
             $rules['code'] = 'required|file|mimes:csv,txt|unique:products,code';
         } else {
-            $rules['code'] = 'required|unique:products,code';
+            $rules['code'] = 'required|unique:products,code' . ($id ? ',' . $id : '');
         }
 
         return request()->validate($rules);
@@ -34,7 +36,8 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::with('category')->orderBy('id', 'desc')->get();
-        return view('backend.pages.products.manage', compact('products'));
+        $categories = Category::with(['products', 'parentCategory', 'childrenCat'])->where('is_parent', 0)->orderBy('name', 'asc')->get();
+        return view('backend.pages.products.manage', compact('products', 'categories'));
     }
 
     /**
@@ -65,11 +68,11 @@ class ProductController extends Controller
             $category_id = $request->input('category_id'); // Get the selected category ID
 
             Excel::import(new CodeImport($category_id), $file); // Import the data from the file
-
             return redirect()->route('product.manage');
 
         } catch (QueryException $e) {
             $errorCode = $e->errorInfo[1];
+
             if ($errorCode == 1062) { // Duplicate entry error code
                 return back()->withErrors(['code' => 'The code already exists.'])->withInput();
             } else {
@@ -82,38 +85,29 @@ class ProductController extends Controller
     {
         $products = Product::with('category')->get(['code', 'category_id', 'status']);
         $fileName = 'codes_' . Carbon::now()->setTimezone('+6')->format('d-M-y_h-i-a') . '.csv';
-        return Excel::download(new ProductExport($products), $fileName);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
+        return Excel::download(new CodeExport($products), $fileName);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Product $product)
     {
-        //
+        $product = $product;
+        $product->update($this->validateProduct($product->id));
+
+        $product->save();
+        return redirect()->route('product.manage');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Product $product)
     {
-        //
+        $product = $product;
+
+        $product->delete();
+        return redirect()->route('product.manage');
     }
 }

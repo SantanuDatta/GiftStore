@@ -211,7 +211,7 @@
                                                                     <div class="modal-body">
                                                                         <div class="shadow-none bg-light border w-100">
                                                                             <div class="card-body">
-                                                                                <div class="form-group ">
+                                                                                <div class="form-group">
                                                                                     <label class="form-label">Name</label>
                                                                                     <input type="text"
                                                                                         class="form-control @error('name') is-invalid @enderror"
@@ -385,7 +385,7 @@
                                                                 </div>
                                                                 <div class="modal-footer">
                                                                     <form action="{{ route('sub.delete', $category) }}"
-                                                                        method="post">
+                                                                        method="POST">
                                                                         @csrf
                                                                         @method('DELETE')
                                                                         <button type="button" class="btn btn-secondary"
