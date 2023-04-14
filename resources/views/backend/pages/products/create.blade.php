@@ -15,8 +15,8 @@
         </div>
         @php
             $parentCat = App\Models\Category::with(['products', 'parentCategory', 'childrenCat'])
-                ->where('is_parent', 0)
-                ->orderBy('name', 'asc')
+                ->parent()
+                ->orderAsc()
                 ->get();
         @endphp
         <div class="ms-auto">

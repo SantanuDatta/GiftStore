@@ -30,6 +30,22 @@ return [
 
     'disks' => [
 
+        // Main Category folder in public path
+        'mainCat' => [
+            'driver' => 'local',
+            'root' => public_path('backend/img/categories/main/'),
+            'url' => env('APP_URL') . '/backend/img/categories/main/',
+            'visibility' => 'public',
+        ],
+
+        // Main Category folder in public path
+        'subCat' => [
+            'driver' => 'local',
+            'root' => public_path('backend/img/categories/sub/'),
+            'url' => env('APP_URL') . '/backend/img/categories/sub/',
+            'visibility' => 'public',
+        ],
+
         'local' => [
             'driver' => 'local',
             'root' => storage_path('app'),

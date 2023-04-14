@@ -26,7 +26,7 @@
                     <div class="card shadow-none bg-light border w-100">
                         <div class="card-body">
                             <form class="row g-3" action="{{ route('main.add') }}" method="POST"
-                                enctype="multipart/form-data" id="add-main-cat" novalidate>
+                                enctype="multipart/form-data" novalidate>
                                 @csrf
                                 <div class="col-12">
                                     <label class="form-label">Name</label>
@@ -58,8 +58,9 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <label class="form-label" for="main-cat-img">Image Upload [Optional]</label>
-                                    <input type="file" id="main-cat-img" name="image" class="form-control">
+                                    <label class="form-label" for="image">Image Upload [Optional]</label>
+                                    <input type="file" id="image" name="image" value="{{ old('image') }}"
+                                        class="form-control @error('image') is-invalid @enderror">
                                     @error('image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
@@ -111,13 +112,13 @@
                                                     @if (!is_null($category->image))
                                                         <div class="product-box rounded-circle border p-1">
                                                             <img class="img-fluid" style="width: 70%;"
-                                                                src="{{ asset('backend/img/categories/' . $category->image) }}"
+                                                                src="{{ Storage::disk('mainCat')->url($category->image) }}"
                                                                 alt="">
                                                         </div>
                                                     @else
                                                         <div class="product-box rounded-circle border p-1">
                                                             <img class="img-fluid" style="width: 70%;"
-                                                                src="{{ asset('backend/img/categories/logo-icon.png') }}"
+                                                                src="{{ Storage::disk('mainCat')->url('logo-icon.png') }}"
                                                                 alt="">
                                                         </div>
                                                     @endif
@@ -162,7 +163,7 @@
                                                                 </div>
                                                                 <form action="{{ route('main.update', $category) }}"
                                                                     method="POST" enctype="multipart/form-data"
-                                                                    class="edit-main-cat" novalidate>
+                                                                    novalidate>
                                                                     @csrf
                                                                     @method('PATCH')
                                                                     <div class="modal-body">
@@ -224,21 +225,21 @@
                                                                                 </div>
                                                                                 <div class="form-group mt-3">
                                                                                     <label class="form-label"
-                                                                                        for="edit-main-cat-img">Image
+                                                                                        for="image">Image
                                                                                         Upload
                                                                                         [Optional]</label>
                                                                                     @if (!is_null($category->image))
                                                                                         <div class="border p-1">
                                                                                             <img class="img-fluid"
                                                                                                 style="width: 30%;text-align: center;display: block;margin: 5px auto;"
-                                                                                                src="{{ asset('backend/img/categories/' . $category->image) }}"
+                                                                                                src="{{ Storage::disk('mainCat')->url($category->image) }}"
                                                                                                 alt="">
                                                                                         </div>
                                                                                     @endif
-                                                                                    <input type="file"
-                                                                                        id="edit-main-cat-img"
+                                                                                    <input type="file" id="image"
                                                                                         name="image"
-                                                                                        class="form-control">
+                                                                                        class="form-control @error('image') is-invalid @enderror"
+                                                                                        value="{{ $category->image }}">
                                                                                     @error('image')
                                                                                         <div class="invalid-feedback">
                                                                                             {{ $message }}</div>

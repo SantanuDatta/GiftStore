@@ -4,10 +4,7 @@ namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
-use File;
-use Illuminate\Http\Request;
-use Image;
-use Str;
+use App\Services\CategoryService;
 
 class SubCatController extends Controller
 {
@@ -33,84 +30,44 @@ class SubCatController extends Controller
      */
     public function index()
     {
-        $categories = Category::whereHas('parentCategory')->with('parentCategory')->orderBy('name', 'asc')->get();
-        $parentCat = Category::where('is_parent', 0)->orderBy('name', 'asc')->get();
+        $categories = Category::whereHas('parentCategory')->with('parentCategory')->orderAsc()->get();
+        $parentCat = Category::parent()->orderAsc()->get();
         return view('backend.pages.categories.sub.manage', compact('categories', 'parentCat'));
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CategoryService $categoryService)
     {
         $subCat = Category::create($this->validateCategory());
+        $categoryService->storeSub($subCat);
 
-        if (request()->hasFile('image')) {
-            $image = request()->file('image');
-
-            // save the new image file
-            $img = uniqid() . '.' . $image->getClientOriginalExtension();
-            $location = public_path('backend/img/categories/' . $img);
-
-            $imageResize = Image::make($image);
-            $imageResize->fit(300, 300)->save($location);
-
-            $subCat->image = $img;
-        }
-
-        $subCat->slug = Str::slug($request->name);
-        $subCat->save();
         return redirect()->route('sub.category');
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Category $category)
+    public function update(Category $category, CategoryService $categoryService)
     {
         $subCat = $category;
+        $oldImage = $subCat->image;
 
         $subCat->update($this->validateCategory($subCat->id));
-
-        if (request()->hasFile('image')) {
-            // delete the old image file
-            if (!empty($subCat->image) && File::exists('backend/img/categories/' . $subCat->image)) {
-                File::delete('backend/img/categories/' . $subCat->image);
-            }
-
-            // save the new image file
-            $image = request()->file('image');
-            $img = uniqid() . '.' . $image->getClientOriginalExtension();
-            $location = public_path('backend/img/categories/' . $img);
-
-            $imageResize = Image::make($image);
-            $imageResize->fit(300, 300)->save($location);
-
-            // update the category record with the new image filename
-            $subCat->image = $img;
-        } else {
-            // If no new image is provided, update the image property with the existing value
-            $subCat->image = $subCat->image;
-        }
-
-        $subCat->slug = Str::slug(request('slug'));
-        $subCat->save();
+        $categoryService->updateSub($oldImage, $subCat);
+        
         return redirect()->route('sub.category');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(Category $category, CategoryService $categoryService)
     {
         $subCat = $category;
-
-        // delete the old image file
-        if (!empty($subCat->image) && File::exists('backend/img/categories/' . $subCat->image)) {
-            File::delete('backend/img/categories/' . $subCat->image);
-        }
-
-        $subCat->delete();
+        $categoryService->deleteSub($subCat);
+        
         return redirect()->route('sub.category');
     }
 }

@@ -27,6 +27,18 @@ class Category extends Model
         return 'slug';
     }
 
+    //Query Scopes
+    public function scopeOrderAsc($query)
+    {
+        return $query->orderBy('name', 'asc');
+    }
+
+    public function scopeParent($query)
+    {
+        return $query->where('is_parent', 0);
+    }
+
+    //Relations
     public function parentCategory()
     {
         return $this->belongsTo(Category::class, 'is_parent');

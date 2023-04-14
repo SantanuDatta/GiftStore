@@ -19,3 +19,4 @@
     <link rel="stylesheet" href="{{ asset('backend/css/custom.css') }}">
 
     {{-- Custom Css --}}
+    @stack('css')

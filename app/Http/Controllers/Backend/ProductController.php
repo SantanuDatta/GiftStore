@@ -35,8 +35,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category')->orderBy('id', 'desc')->get();
-        $categories = Category::with(['products', 'parentCategory', 'childrenCat'])->where('is_parent', 0)->orderBy('name', 'asc')->get();
+        $products = Product::with('category')->orderDesc()->get();
+        $categories = Category::with(['products', 'parentCategory', 'childrenCat'])->parent()->orderAsc()->get();
         return view('backend.pages.products.manage', compact('products', 'categories'));
     }
 
@@ -51,7 +51,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store()
     {
         $product = Product::Create($this->validateProduct());
 

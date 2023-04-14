@@ -1,7 +1,7 @@
 @extends('backend.layout.template')
 
 @section('body-content')
-    <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4">
+    <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-4 mb-3">
         <div class="col">
             <div class="card rounded-4">
                 <div class="card-body">
@@ -16,7 +16,6 @@
                             <i class="bi bi-basket2"></i>
                         </div>
                     </div>
-
                 </div>
             </div>
         </div>
@@ -76,7 +75,7 @@
     <!--end row-->
 
     <div class="row">
-        <div class="col-12 col-lg-8 col-xl-8 d-flex">
+        <div class="col-12 col-lg-8 col-xl-8 d-flex mb-3">
             <div class="card w-100 rounded-4">
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-3">
@@ -109,7 +108,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-lg-4 col-xl-4 d-flex">
+        <div class="col-12 col-lg-4 col-xl-4 d-flex mb-3">
             <div class="card w-100 rounded-4">
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-3">
@@ -146,7 +145,7 @@
     </div>
     <!--end row-->
 
-    <div class="row row-cols-1 row-cols-lg-4 radial-charts g-4">
+    <div class="row row-cols-1 row-cols-lg-4 radial-charts g-4 mb-3">
         <div class="col">
             <div class="card rounded-4">
                 <div class="card-body">
@@ -220,7 +219,7 @@
     <!--end row-->
 
     <div class="row">
-        <div class="col-12 col-lg-6 col-xl-6 d-flex">
+        <div class="col-12 col-lg-6 col-xl-6 d-flex mb-3">
             <div class="card rounded-4 w-100">
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-3">
@@ -281,7 +280,7 @@
                 </div>
             </div>
         </div>
-        <div class="col-12 col-lg-6 col-xl-6 d-flex">
+        <div class="col-12 col-lg-6 col-xl-6 d-flex mb-3">
             <div class="card rounded-4 w-100">
                 <div class="card-body">
                     <div class="d-flex align-items-center mb-3">
@@ -332,7 +331,7 @@
     </div>
     <!--end row-->
 
-    <div class="row row-cols-1 row-cols-lg-3">
+    <div class="row row-cols-1 row-cols-lg-3 mb-3">
         <div class="col">
             <div class="card rounded-4">
                 <div class="card-body">

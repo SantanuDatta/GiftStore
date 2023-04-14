@@ -88,8 +88,8 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <label class="form-label" for="sub-cat-img">Image Upload [Optional]</label>
-                                    <input type="file" id="sub-cat-img" name="image"
+                                    <label class="form-label" for="image">Image Upload [Optional]</label>
+                                    <input type="file" id="image" name="image"
                                         class="form-control @error('image') is-invalid @enderror">
                                     @error('image')
                                         <div class="invalid-feedback">{{ $message }}</div>
@@ -145,13 +145,13 @@
                                                     @if (!is_null($category->image))
                                                         <div class="product-box rounded-circle border p-1">
                                                             <img class="img-fluid" style="width: 70%;"
-                                                                src="{{ asset('backend/img/categories/' . $category->image) }}"
+                                                                src="{{ Storage::disk('subCat')->url($category->image) }}"
                                                                 alt="">
                                                         </div>
                                                     @else
                                                         <div class="product-box rounded-circle border p-1">
                                                             <img class="img-fluid" style="width: 70%;"
-                                                                src="{{ asset('backend/img/categories/logo-icon.png') }}"
+                                                                src="{{ Storage::disk('subCat')->url('logo-icon.png') }}"
                                                                 alt="">
                                                         </div>
                                                     @endif
@@ -323,7 +323,7 @@
                                                                                         <div class="border p-1">
                                                                                             <img class="img-fluid"
                                                                                                 style="width: 30%;text-align: center;display: block;margin: 5px auto;"
-                                                                                                src="{{ asset('backend/img/categories/' . $category->image) }}"
+                                                                                                src="{{ Storage::disk('subCat')->url($category->image) }}"
                                                                                                 alt="">
                                                                                         </div>
                                                                                     @endif

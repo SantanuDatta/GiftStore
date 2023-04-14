@@ -15,6 +15,13 @@ class Product extends Model
         'status',
     ];
 
+    //Query Scopes
+    public function scopeOrderDesc($query)
+    {
+        return $query->orderBy('id', 'desc');
+    }
+
+    //Relations
     public function category()
     {
         return $this->belongsTo(Category::class);
