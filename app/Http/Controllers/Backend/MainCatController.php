@@ -3,28 +3,12 @@
 namespace App\Http\Controllers\Backend;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Category\MainCatRequest;
 use App\Models\Category;
 use App\Services\CategoryService;
 
 class MainCatController extends Controller
 {
-    protected function validateCategory($id = null)
-    {
-        //For image = max:1024|dimensions:max_width=300,min_height=300
-        $rules = [
-            'name' => 'required|min:5|max:25|unique:categories,name' . ($id ? ',' . $id : ''),
-            'slug' => ($id ? 'required|' : '') . 'max:25|unique:categories,slug,' . $id,
-            'is_parent' => 'nullable',
-            'description' => 'nullable',
-            'regular_price' => 'nullable',
-            'discount' => 'nullable',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
-            'is_featured' => 'nullable',
-            'status' => 'required',
-        ];
-        return request()->validate($rules);
-    }
-
     /**
      * Display a listing of the resource.
      */
@@ -37,9 +21,9 @@ class MainCatController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(CategoryService $categoryService)
+    public function store(CategoryService $categoryService, MainCatRequest $request)
     {
-        $mainCat = Category::create($this->validateCategory());
+        $mainCat = Category::create($request->validated());
         $categoryService->storeMain($mainCat);
 
         return redirect()->route('main.category');
@@ -48,12 +32,12 @@ class MainCatController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Category $category, CategoryService $categoryService)
+    public function update(Category $category, CategoryService $categoryService, MainCatRequest $request)
     {
         $mainCat = $category;
         $oldImage = $mainCat->image;
         
-        $mainCat->update($this->validateCategory($mainCat->id));
+        $mainCat->update($request->validated());
         $categoryService->updateMain($oldImage, $mainCat);
 
         return redirect()->route('main.category');

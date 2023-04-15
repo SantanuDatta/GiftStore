@@ -14,7 +14,7 @@
             </nav>
         </div>
         @php
-            $parentCat = App\Models\Category::with(['products', 'parentCategory', 'childrenCat'])
+            $parentCat = App\Models\Category::select('id', 'name')->with(['products:id,code,category_id,status', 'parentCategory:id,name', 'childrenCat:id,name,is_parent'])
                 ->parent()
                 ->orderAsc()
                 ->get();

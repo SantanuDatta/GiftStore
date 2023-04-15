@@ -4,39 +4,23 @@ namespace App\Http\Controllers\Backend;
 
 use App\Exports\CodeExport;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Product\ProductRequest;
 use App\Imports\CodeImport;
 use App\Models\Category;
 use App\Models\Product;
 use Carbon\Carbon;
 use Excel;
-use Illuminate\Http\Request;
 use Illuminate\Database\QueryException;
 
 class ProductController extends Controller
 {
-    protected function validateProduct($id = null)
-    {
-        $rules = [
-            'category_id' => 'required|exists:categories,id',
-            'status' => 'required',
-        ];
-
-        // Add the 'file' and 'mimes' rules only if a file has been uploaded
-        if (request()->hasFile('code')) {
-            $rules['code'] = 'required|file|mimes:csv,txt|unique:products,code';
-        } else {
-            $rules['code'] = 'required|unique:products,code' . ($id ? ',' . $id : '');
-        }
-
-        return request()->validate($rules);
-    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        $products = Product::with('category')->orderDesc()->get();
-        $categories = Category::with(['products', 'parentCategory', 'childrenCat'])->parent()->orderAsc()->get();
+        $products = Product::with('category:id,name')->orderDesc()->get();
+        $categories = Category::select('id', 'name')->with(['products:id,code,category_id,status', 'parentCategory:id,name', 'childrenCat:id,name,is_parent'])->parent()->orderAsc()->get();
         return view('backend.pages.products.manage', compact('products', 'categories'));
     }
 
@@ -51,18 +35,18 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store()
+    public function store(ProductRequest $request)
     {
-        $product = Product::Create($this->validateProduct());
-
+        $product = Product::Create($request->validated());
         $product->save();
+
         return redirect()->route('product.manage');
     }
 
-    public function import(Request $request)
+    public function import(ProductRequest $request)
     {
         try {
-            $this->validateProduct(); // Validate the incoming request data
+            $request->validated(); // Validate the incoming request data
 
             $file = $request->file('code'); // Get the uploaded file
             $category_id = $request->input('category_id'); // Get the selected category ID
@@ -91,12 +75,13 @@ class ProductController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Product $product)
+    public function update(Product $product, ProductRequest $request)
     {
         $product = $product;
-        $product->update($this->validateProduct($product->id));
 
+        $product->update($request->validated());
         $product->save();
+
         return redirect()->route('product.manage');
     }
 
@@ -106,8 +91,8 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
         $product = $product;
-
         $product->delete();
+        
         return redirect()->route('product.manage');
     }
 }

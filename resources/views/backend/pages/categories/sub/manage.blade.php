@@ -59,11 +59,14 @@
                                     </div>
                                 </div>
                                 <div class="col-12 col-lg-6">
-                                    <label class="form-label" for="discounted_price">Give Discount?</label>
+                                    <label class="form-label" for="discount">Give Discount?</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" name="discounted_price"
-                                            id="discounted_price" value="{{ old('discounted_price') }}">
+                                        <input type="text" class="form-control @error('discount') is-invalid @enderror"
+                                            name="discount" id="discount" value="{{ old('discount') }}">
                                         <span class="input-group-text">%</span>
+                                        @error('discount')
+                                            <div class="invalid-feedback">{{ $message }}</div>
+                                        @enderror
                                     </div>
                                 </div>
                                 <div class="col-12">
@@ -166,7 +169,7 @@
                                                 @php
                                                     $afterDisount = $category->regular_price * ($category->discount / 100);
                                                 @endphp
-                                                <td>{{ $afterDisount ? $afterDiscount : 'N/A' }} {{ __('BDT') }}</td>
+                                                <td>{{ $afterDisount ? $afterDisount : 'N/A' }} </td>
                                                 <td>
                                                     @if ($category->is_featured == 1)
                                                         <span class="badge bg-primary">Featured</span>
@@ -269,16 +272,21 @@
                                                                                     </div>
                                                                                     <div class="col-12 col-lg-6">
                                                                                         <label class="form-label"
-                                                                                            for="discounted_price">Discounted
+                                                                                            for="discount">Discounted
                                                                                             Price</label>
                                                                                         <div class="input-group">
                                                                                             <input type="text"
-                                                                                                class="form-control"
-                                                                                                name="discounted_price"
-                                                                                                id="discounted_price"
-                                                                                                value="{{ $category->discounted_price }}">
+                                                                                                class="form-control @error('discount') is-invalid @enderror"
+                                                                                                name="discount"
+                                                                                                id="discount"
+                                                                                                value="{{ $category->discount }}">
                                                                                             <span
                                                                                                 class="input-group-text">%</span>
+                                                                                            @error('discount')
+                                                                                                <div class="invalid-feedback">
+                                                                                                    {{ $message }}
+                                                                                                </div>
+                                                                                            @enderror
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
