@@ -27,7 +27,7 @@ class ProductRequest extends FormRequest
             'status' => ['filled'],
             'code' => request()->hasFile('code')
                 ? ['required', 'file', 'mimes:csv,txt', Rule::unique('products', 'code')]
-                : ['required', Rule::unique('products', 'code')->ignore($this->product)],
+                : ['required', Rule::unique('products', 'code')->ignore($this->product->id)],
         ];
     }
 }
