@@ -12,8 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('products', function (Blueprint $table) {
-            $table->increments('id');
-            $table->bigInteger('category_id');
+            $table->id()->index();
+            $table->foreignId('category_id')->nullable()->constrained()->nullOnDelete();
             $table->string('code')->unique();
             $table->integer('status')->default(0)->comment('0 = Inactive, 1 = Active');
             $table->timestamps();

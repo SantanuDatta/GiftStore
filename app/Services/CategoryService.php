@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Services;
 
 use App\Models\Category;
@@ -12,11 +11,12 @@ class CategoryService
     //Main Category Store
     public function storeMain($mainCat)
     {
+        $mainCat = Category::create($mainCat);
         if (request()->hasFile('image')) {
             $image = request()->file('image');
 
             // save the new image file
-            $img = rand() . '.' . $image->getClientOriginalExtension();
+            $img      = uniqid() . '.' . $image->getClientOriginalExtension();
             $location = Storage::disk('mainCat')->path($img);
 
             $imageResize = Image::make($image);
@@ -30,17 +30,17 @@ class CategoryService
     }
 
     //Main Category Update
-    public function updateMain($oldImage, $mainCat)
+    public function updateMain(Category $mainCat)
     {
         if (request()->hasFile('image')) {
             // delete the old image file
-            if (Storage::disk('mainCat')->exists($oldImage)) {
-                Storage::disk('mainCat')->delete($oldImage);
+            if (!empty($mainCat->image)) {
+                Storage::disk('mainCat')->delete($mainCat->image);
             }
 
             // save the new image file
-            $image = request()->file('image');
-            $img = rand() . '.' . $image->getClientOriginalExtension();
+            $image    = request()->file('image');
+            $img      = uniqid() . '.' . $image->getClientOriginalExtension();
             $location = Storage::disk('mainCat')->path($img);
 
             $imageResize = Image::make($image);
@@ -51,11 +51,11 @@ class CategoryService
         }
 
         $mainCat->slug = Str::slug(request('slug'));
-        $mainCat->save();
+        $mainCat->update();
     }
 
     //Main Category Delete
-    public function deleteMain($mainCat)
+    public function deleteMain(Category $mainCat)
     {
         if ($mainCat->is_parent == 0) {
             foreach (Category::where('is_parent', $mainCat->id)->get() as $sCat) {
@@ -65,7 +65,7 @@ class CategoryService
         }
 
         // delete the old image file
-        if (Storage::disk('mainCat')->exists($mainCat->image)) {
+        if (!empty($mainCat->image)) {
             Storage::disk('mainCat')->delete($mainCat->image);
         }
 
@@ -75,11 +75,12 @@ class CategoryService
     //Sub Category Store
     public function storeSub($subCat)
     {
+        $subCat = Category::create($subCat);
         if (request()->hasFile('image')) {
             $image = request()->file('image');
 
             // save the new image file
-            $img = uniqid() . '.' . $image->getClientOriginalExtension();
+            $img      = uniqid() . '.' . $image->getClientOriginalExtension();
             $location = Storage::disk('subCat')->path($img);
 
             $imageResize = Image::make($image);
@@ -89,21 +90,20 @@ class CategoryService
         }
 
         $subCat->slug = Str::slug(request('name'));
-        $subCat->save();
     }
 
     //Sub Category Update
-    public function updateSub($oldImage, $subCat)
+    public function updateSub(Category $subCat)
     {
         if (request()->hasFile('image')) {
             // delete the old image file
-            if (Storage::disk('subCat')->exists($oldImage)) {
-                Storage::disk('subCat')->delete($oldImage);;
+            if (!empty($subCat->image)) {
+                Storage::disk('subCat')->delete($subCat->image);
             }
 
             // save the new image file
-            $image = request()->file('image');
-            $img = uniqid() . '.' . $image->getClientOriginalExtension();
+            $image    = request()->file('image');
+            $img      = uniqid() . '.' . $image->getClientOriginalExtension();
             $location = Storage::disk('subCat')->path($img);
 
             $imageResize = Image::make($image);
@@ -114,14 +114,14 @@ class CategoryService
         }
 
         $subCat->slug = Str::slug(request('slug'));
-        $subCat->save();
+        $subCat->update();
     }
 
     //Sub Category Delete
-    public function deleteSub($subCat)
+    public function deleteSub(Category $subCat)
     {
         // delete the old image file
-        if (Storage::disk('subCat')->exists($subCat->image)) {
+        if (!empty($subCat->image)) {
             Storage::disk('subCat')->delete($subCat->image);
         }
 

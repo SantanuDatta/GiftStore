@@ -14,7 +14,8 @@ class MainCatController extends Controller
      */
     public function index()
     {
-        $categories = Category::parent()->orderAsc()->get();
+        $categories = Category::parent()->asc('name')->get();
+
         return view('backend.pages.categories.main.manage', compact('categories'));
     }
 
@@ -23,8 +24,7 @@ class MainCatController extends Controller
      */
     public function store(CategoryService $categoryService, MainCatRequest $request)
     {
-        $mainCat = Category::create($request->validated());
-        $categoryService->storeMain($mainCat);
+        $categoryService->storeMain($request->validated());
 
         return redirect()->route('main.category');
     }
@@ -34,11 +34,7 @@ class MainCatController extends Controller
      */
     public function update(Category $category, CategoryService $categoryService, MainCatRequest $request)
     {
-        $mainCat = $category;
-        $oldImage = $mainCat->image;
-        
-        $mainCat->update($request->validated());
-        $categoryService->updateMain($oldImage, $mainCat);
+        $categoryService->updateMain($category, $request->validated());
 
         return redirect()->route('main.category');
     }
@@ -48,9 +44,8 @@ class MainCatController extends Controller
      */
     public function destroy(Category $category, CategoryService $categoryService)
     {
-        $mainCat = $category;
-        $categoryService->deleteMain($mainCat);
-        
+        $categoryService->deleteMain($category);
+
         return redirect()->route('main.category');
     }
 }

@@ -15,19 +15,19 @@
         </div>
         <div class="ms-auto">
             <div class="btn-group">
-                <button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#importModal">Import
+                <button class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#importModal" type="button">Import
                     CSV</button>
             </div>
             <div class="btn-group">
-                <a href="{{ route('product.export') }}" class="btn btn-warning">Export As CSV</a>
+                <a class="btn btn-warning" href="{{ route('product.export') }}">Export As CSV</a>
             </div>
             <!-- Import Modal -->
-            <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">
+            <div class="modal fade" id="importModal" aria-labelledby="importModalLabel" aria-hidden="true" tabindex="-1">
                 <div class="modal-dialog modal-dialog-centered">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h1 class="modal-title fs-5" id="exampleModalLabel">Import Codes</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button class="btn-close" data-bs-dismiss="modal" type="button" aria-label="Close"></button>
                         </div>
                         <form action="{{ route('product.import') }}" method="POST" enctype="multipart/form-data"
                             novalidate>
@@ -35,7 +35,7 @@
                             <div class="modal-body">
                                 @if ($errors->any())
                                     <div class="alert alert-danger">
-                                        <ul class="mb-0 ps-0">
+                                        <ul class="ps-0 mb-0">
                                             @foreach ($errors->all() as $error)
                                                 <li style="list-style: none;">{{ $error }}</li>
                                             @endforeach
@@ -43,8 +43,8 @@
                                     </div>
                                 @endif
                                 <div class="col-12">
-                                    <label for="category_id" class="form-label">Category</label>
-                                    <select class="form-select" name="category_id" id="category_id">
+                                    <label class="form-label" for="category_id">Category</label>
+                                    <select class="form-select" id="category_id" name="category_id">
                                         @foreach ($categories as $pCat)
                                             <option value="{{ $pCat->id }}" disabled>{{ $pCat->name }}
                                             </option>
@@ -56,15 +56,15 @@
                                     </select>
                                 </div>
                                 <div class="col-12 mt-3">
-                                    <label for="code" class="btn btn-dark form-control"><span><i
+                                    <label class="btn btn-dark form-control" for="code"><span><i
                                                 class="bi bi-upload"></i></span><span class="ps-2">Upload
                                             CSV</span></label>
-                                    <input type="file" name="code" id="code" hidden>
+                                    <input id="code" name="code" type="file" hidden>
                                 </div>
                             </div>
                             <div class="modal-footer">
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-                                <input type="submit" name="import" class="btn btn-primary" value="Import">
+                                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Close</button>
+                                <input class="btn btn-primary" name="import" type="submit" value="Import">
                             </div>
                         </form>
                     </div>
@@ -73,10 +73,10 @@
         </div>
     </div>
     <!--end breadcrumb-->
-    <div class="card shadow-none bg-light border w-100">
+    <div class="card bg-light w-100 border shadow-none">
         <div class="card-body">
             <div class="table-responsive">
-                <table id="data" class="table align-middle table-bordered table-striped">
+                <table class="table-bordered table-striped table align-middle" id="data">
                     <thead class="table-dark">
                         <tr>
                             <th>ID</th>
@@ -103,13 +103,13 @@
                                     @endif
                                 </td>
                                 <td>
-                                    <div class="d-flex align-items-center gap-3 fs-6">
-                                        <a href="javascript:;" class="text-warning" data-bs-toggle="modal"
-                                            data-bs-target="#edit-{{ $product->id }}" aria-label="Edit"><i
-                                                class="bi bi-pencil-fill"></i></a>
-                                        <a href="javascript:;" class="text-danger" data-bs-toggle="modal"
-                                            data-bs-target="#delete-{{ $product->id }}" aria-label="Delete"><i
-                                                class="bi bi-trash-fill"></i></a>
+                                    <div class="d-flex align-items-center fs-6 gap-3">
+                                        <a class="text-warning" data-bs-toggle="modal"
+                                            data-bs-target="#edit-{{ $product->id }}" href="javascript:;"
+                                            aria-label="Edit"><i class="bi bi-pencil-fill"></i></a>
+                                        <a class="text-danger" data-bs-toggle="modal"
+                                            data-bs-target="#delete-{{ $product->id }}" href="javascript:;"
+                                            aria-label="Delete"><i class="bi bi-trash-fill"></i></a>
                                     </div>
                                     {{-- Edit Modal --}}
                                     <div class="modal fade" id="edit-{{ $product->id }}" tabindex="-1">
@@ -117,26 +117,26 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title">Edit Code Summery</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    <button class="btn-close" data-bs-dismiss="modal" type="button"
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <form action="{{ route('product.update', $product) }}" method="POST">
                                                     @csrf
                                                     @method('PATCH')
                                                     <div class="modal-body">
-                                                        <div class="shadow-none bg-light border w-100">
+                                                        <div class="bg-light w-100 border shadow-none">
                                                             <div class="card-body">
                                                                 <div class="form-group">
                                                                     <label class="form-label" for="code">Code</label>
-                                                                    <input type="text" class="form-control"
-                                                                        name="code" value="{{ $product->code }}"
-                                                                        id="code">
+                                                                    <input class="form-control" id="code"
+                                                                        name="code" type="text"
+                                                                        value="{{ $product->code }}">
                                                                 </div>
                                                                 <div class="form-group mt-3">
-                                                                    <label for="category_id"
-                                                                        class="form-label">Category</label>
-                                                                    <select class="form-select" name="category_id"
-                                                                        id="category_id">
+                                                                    <label class="form-label"
+                                                                        for="category_id">Category</label>
+                                                                    <select class="form-select" id="category_id"
+                                                                        name="category_id">
                                                                         @foreach ($categories as $pCat)
                                                                             <option value="{{ $pCat->id }}" disabled>
                                                                                 {{ $pCat->name }}
@@ -153,8 +153,9 @@
                                                                 <div class="form-group mt-3">
                                                                     <label class="form-label"
                                                                         for="status">Status</label>
-                                                                    <select name="status" id="status"
-                                                                        class="form-select mb-3 @error('status') is-invalid @enderror">
+                                                                    <select
+                                                                        class="@error('status') is-invalid @enderror form-select mb-3"
+                                                                        id="status" name="status">
                                                                         <option value="" hidden>
                                                                             Please Select Status</option>
                                                                         <option value="0"
@@ -169,9 +170,9 @@
                                                         </div>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close</button>
-                                                        <input type="submit" name="updateCode" class="btn btn-primary"
+                                                        <button class="btn btn-secondary" data-bs-dismiss="modal"
+                                                            type="button">Close</button>
+                                                        <input class="btn btn-primary" name="updateCode" type="submit"
                                                             value="Update Changes">
                                                     </div>
                                                 </form>
@@ -185,7 +186,7 @@
                                             <div class="modal-content">
                                                 <div class="modal-header">
                                                     <h5 class="modal-title">Delete This Code</h5>
-                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                    <button class="btn-close" data-bs-dismiss="modal" type="button"
                                                         aria-label="Close"></button>
                                                 </div>
                                                 <form action="{{ route('product.delete', $product) }}" method="POST">
@@ -195,9 +196,9 @@
                                                         <p>Are You Sure You Want To Delete This Code?</p>
                                                     </div>
                                                     <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary"
-                                                            data-bs-dismiss="modal">Close</button>
-                                                        <input type="submit" name="deleteCode" class="btn btn-danger"
+                                                        <button class="btn btn-secondary" data-bs-dismiss="modal"
+                                                            type="button">Close</button>
+                                                        <input class="btn btn-danger" name="deleteCode" type="submit"
                                                             value="Delete Code">
                                                     </div>
                                                 </form>

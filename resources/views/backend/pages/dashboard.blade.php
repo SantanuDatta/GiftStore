@@ -9,7 +9,7 @@
                         <div class="">
                             <p class="mb-1">Total Orders</p>
                             <h4 class="mb-0">5.8K</h4>
-                            <p class="mb-0 mt-2 font-13"><i class="bi bi-arrow-up"></i><span>22.5% from last
+                            <p class="font-13 mb-0 mt-2"><i class="bi bi-arrow-up"></i><span>22.5% from last
                                     week</span></p>
                         </div>
                         <div class="ms-auto widget-icon bg-primary text-white">
@@ -26,7 +26,7 @@
                         <div class="">
                             <p class="mb-1">Total Income</p>
                             <h4 class="mb-0">$9,786</h4>
-                            <p class="mb-0 mt-2 font-13"><i class="bi bi-arrow-up"></i><span>13.2% from last
+                            <p class="font-13 mb-0 mt-2"><i class="bi bi-arrow-up"></i><span>13.2% from last
                                     week</span></p>
                         </div>
                         <div class="ms-auto widget-icon bg-success text-white">
@@ -43,7 +43,7 @@
                         <div class="">
                             <p class="mb-1">Total Views</p>
                             <h4 class="mb-0">875</h4>
-                            <p class="mb-0 mt-2 font-13"><i class="bi bi-arrow-up"></i><span>12.3% from last
+                            <p class="font-13 mb-0 mt-2"><i class="bi bi-arrow-up"></i><span>12.3% from last
                                     week</span></p>
                         </div>
                         <div class="ms-auto widget-icon bg-orange text-white">
@@ -60,7 +60,7 @@
                         <div class="">
                             <p class="mb-1">New Clients</p>
                             <h4 class="mb-0">9853</h4>
-                            <p class="mb-0 mt-2 font-13"><i class="bi bi-arrow-up"></i><span>32.7% from last
+                            <p class="font-13 mb-0 mt-2"><i class="bi bi-arrow-up"></i><span>32.7% from last
                                     week</span></p>
                         </div>
                         <div class="ms-auto widget-icon bg-info text-white">
@@ -129,7 +129,7 @@
                     <div id="chart2"></div>
                 </div>
                 <ul class="list-group list-group-flush mb-0 shadow-none">
-                    <li class="list-group-item bg-transparent border-top"><i
+                    <li class="list-group-item border-top bg-transparent"><i
                             class="bi bi-circle-fill me-2 font-weight-bold text-primary"></i> Complete <span
                             class="float-end">120</span></li>
                     <li class="list-group-item bg-transparent"><i
@@ -241,7 +241,7 @@
                     <div id="world-map" style="height: 242px;"></div>
                 </div>
                 <div class="table-responsive">
-                    <table class="table align-items-center">
+                    <table class="align-items-center table">
                         <tbody>
                             <tr>
                                 <td><i class="flag-icon flag-icon-gb"></i></td>
@@ -302,11 +302,11 @@
                     <div class="">
                         <div class="d-flex align-items-start gap-3">
                             <div class="review-user">
-                                <img src="{{ asset('backend/images/avatars/avatar-1.png') }}" width="65"
-                                    height="65" class="rounded-circle" alt="">
+                                <img class="rounded-circle" src="{{ asset('backend/images/avatars/avatar-1.png') }}"
+                                    alt="" width="65" height="65">
                             </div>
                             <div class="review-content ms-3">
-                                <div class="rates cursor-pointer fs-6">
+                                <div class="rates fs-6 cursor-pointer">
                                     <i class="bx bxs-star text-warning"></i>
                                     <i class="bx bxs-star text-warning"></i>
                                     <i class="bx bxs-star text-warning"></i>
@@ -315,7 +315,7 @@
                                 </div>
                                 <div class="d-flex align-items-center mb-2">
                                     <h6 class="mb-0">James Caviness</h6>
-                                    <p class="mb-0 ms-auto">February 16, 2021</p>
+                                    <p class="ms-auto mb-0">February 16, 2021</p>
                                 </div>
                                 <p>Nesciunt tofu stumptown aliqua, retro synth master cleanse. Mustache cliche
                                     tempor, williamsburg carles vegan helvetica. Reprehenderit butcher retro

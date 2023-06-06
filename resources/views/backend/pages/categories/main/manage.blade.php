@@ -23,52 +23,52 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-12 col-lg-4 d-flex">
-                    <div class="card shadow-none bg-light border w-100">
+                    <div class="card bg-light w-100 border shadow-none">
                         <div class="card-body">
                             <form class="row g-3" action="{{ route('main.add') }}" method="POST"
                                 enctype="multipart/form-data" novalidate>
                                 @csrf
                                 <div class="col-12">
                                     <label class="form-label">Name</label>
-                                    <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                        name="name" value="{{ old('name') }}" placeholder="Category name">
+                                    <input class="form-control @error('name') is-invalid @enderror" name="name"
+                                        type="text" value="{{ old('name') }}" placeholder="Category name">
                                     @error('name')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label">Description</label>
-                                    <textarea class="form-control" rows="4" cols="3" placeholder="Main Category Description" name="description">{{ old('description') }}</textarea>
+                                    <textarea class="form-control" name="description" rows="4" cols="3" placeholder="Main Category Description">{{ old('description') }}</textarea>
                                 </div>
                                 <div class="col-12">
                                     <label for="">Feature Main Category?</label><br>
                                     <div class="form-check-inline">
                                         <label class="rdiobox rdiobox-info">
-                                            <input name="is_featured" type="radio" value="1"
-                                                class="form-check-input">
+                                            <input class="form-check-input" name="is_featured" type="radio"
+                                                value="1">
                                             <span>Enable</span>
                                         </label>
                                     </div>
                                     <div class="form-check-inline">
                                         <label class="rdiobox rdiobox-info">
-                                            <input name="is_featured" type="radio" value="0" checked
-                                                class="form-check-input">
+                                            <input class="form-check-input" name="is_featured" type="radio" value="0"
+                                                checked>
                                             <span>Disable</span>
                                         </label>
                                     </div>
                                 </div>
                                 <div class="col-12">
                                     <label class="form-label" for="image">Image Upload [Optional]</label>
-                                    <input type="file" id="image" name="image" value="{{ old('image') }}"
-                                        class="form-control @error('image') is-invalid @enderror">
+                                    <input class="form-control @error('image') is-invalid @enderror" id="image"
+                                        name="image" type="file" value="{{ old('image') }}">
                                     @error('image')
                                         <div class="invalid-feedback">{{ $message }}</div>
                                     @enderror
                                 </div>
                                 <div class="col-12">
                                     <label for="status">Do You Want To Publish This Category?</label>
-                                    <select name="status" id="status"
-                                        class="form-select mb-3 @error('status') is-invalid @enderror">
+                                    <select class="@error('status') is-invalid @enderror form-select mb-3" id="status"
+                                        name="status">
                                         <option value="" hidden>Please Select Status</option>
                                         <option value="0" @selected(old('status') == 0)>Draft</option>
                                         <option value="1" @selected(old('status') == 1)>Publish</option>
@@ -87,10 +87,10 @@
                     </div>
                 </div>
                 <div class="col-12 col-lg-8 d-flex">
-                    <div class="card shadow-none bg-light border w-100">
+                    <div class="card bg-light w-100 border shadow-none">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table id="data" class="table align-middle table-bordered table-striped">
+                                <table class="table-bordered table-striped table align-middle" id="data">
                                     <thead class="table-dark">
                                         <tr>
                                             <th>ID</th>
@@ -111,15 +111,15 @@
                                                 <td>
                                                     @if (!is_null($category->image))
                                                         <div class="product-box rounded-circle border p-1">
-                                                            <img class="img-fluid" style="width: 70%;"
+                                                            <img class="img-fluid"
                                                                 src="{{ Storage::disk('mainCat')->url($category->image) }}"
-                                                                alt="">
+                                                                alt="" style="width: 70%;">
                                                         </div>
                                                     @else
                                                         <div class="product-box rounded-circle border p-1">
-                                                            <img class="img-fluid" style="width: 70%;"
+                                                            <img class="img-fluid"
                                                                 src="{{ Storage::disk('mainCat')->url('logo-icon.png') }}"
-                                                                alt="">
+                                                                alt="" style="width: 70%;">
                                                         </div>
                                                     @endif
                                                 </td>
@@ -139,27 +139,25 @@
                                                     @endif
                                                 </td>
                                                 <td>
-                                                    <div class="d-flex align-items-center gap-3 fs-6">
-                                                        <a href="javascript:void(0)" class="text-warning"
-                                                            data-bs-toggle="modal"
-                                                            data-bs-target="#view-{{ $category->slug }}"><i
-                                                                class="bi bi-pencil-fill"></i>
+                                                    <div class="d-flex align-items-center fs-6 gap-3">
+                                                        <a class="text-warning" data-bs-toggle="modal"
+                                                            data-bs-target="#view-{{ $category->slug }}"
+                                                            href="javascript:void(0)"><i class="bi bi-pencil-fill"></i>
                                                         </a>
-                                                        <a href="javascript:;" class="text-danger" data-bs-toggle="modal"
-                                                            data-bs-target="#delete-{{ $category->slug }}"><i
-                                                                class="bi bi-trash-fill"></i>
+                                                        <a class="text-danger" data-bs-toggle="modal"
+                                                            data-bs-target="#delete-{{ $category->slug }}"
+                                                            href="javascript:;"><i class="bi bi-trash-fill"></i>
                                                         </a>
                                                     </div>
                                                     <!-- View Modal -->
                                                     <div class="modal fade" id="view-{{ $category->slug }}"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        aria-hidden="true" tabindex="-1">
                                                         <div class="modal-dialog modal-dialog-centered">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title">Edit This Category</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
+                                                                    <button class="btn-close" data-bs-dismiss="modal"
+                                                                        type="button" aria-label="Close"></button>
                                                                 </div>
                                                                 <form action="{{ route('main.update', $category) }}"
                                                                     method="POST" enctype="multipart/form-data"
@@ -167,13 +165,13 @@
                                                                     @csrf
                                                                     @method('PATCH')
                                                                     <div class="modal-body">
-                                                                        <div class="shadow-none bg-light border w-100">
+                                                                        <div class="bg-light w-100 border shadow-none">
                                                                             <div class="card-body">
                                                                                 <div class="form-group">
                                                                                     <label class="form-label">Name</label>
-                                                                                    <input type="text"
+                                                                                    <input
                                                                                         class="form-control @error('name') is-invalid @enderror"
-                                                                                        name="name"
+                                                                                        name="name" type="text"
                                                                                         value="{{ $category->name }}"
                                                                                         placeholder="Category name">
                                                                                     @error('name')
@@ -183,8 +181,9 @@
                                                                                 </div>
                                                                                 <div class="form-group mt-3">
                                                                                     <label class="form-label">Slug</label>
-                                                                                    <input type="text" name="slug"
+                                                                                    <input
                                                                                         class="form-control @error('slug') is-invalid @enderror"
+                                                                                        name="slug" type="text"
                                                                                         value="{{ $category->slug }}"
                                                                                         placeholder="Slug name">
                                                                                     @error('slug')
@@ -195,8 +194,8 @@
                                                                                 <div class="form-group mt-3">
                                                                                     <label
                                                                                         class="form-label">Description</label>
-                                                                                    <textarea class="form-control" rows="4" cols="3" placeholder="Main Category Description"
-                                                                                        name="description">{{ $category->description }}</textarea>
+                                                                                    <textarea class="form-control" name="description" rows="4" cols="3"
+                                                                                        placeholder="Main Category Description">{{ $category->description }}</textarea>
                                                                                 </div>
                                                                                 <div class="form-group mt-3">
                                                                                     <label for="">Feature Main
@@ -204,10 +203,10 @@
                                                                                     <div class="form-check-inline">
                                                                                         <label
                                                                                             class="rdiobox rdiobox-info">
-                                                                                            <input name="is_featured"
+                                                                                            <input class="form-check-input"
+                                                                                                name="is_featured"
                                                                                                 type="radio"
                                                                                                 value="1"
-                                                                                                class="form-check-input"
                                                                                                 @if ($category->is_featured == 1) checked @endif>
                                                                                             <span>Enable</span>
                                                                                         </label>
@@ -231,14 +230,15 @@
                                                                                     @if (!is_null($category->image))
                                                                                         <div class="border p-1">
                                                                                             <img class="img-fluid"
-                                                                                                style="width: 30%;text-align: center;display: block;margin: 5px auto;"
                                                                                                 src="{{ Storage::disk('mainCat')->url($category->image) }}"
-                                                                                                alt="">
+                                                                                                alt=""
+                                                                                                style="width: 30%;text-align: center;display: block;margin: 5px auto;">
                                                                                         </div>
                                                                                     @endif
-                                                                                    <input type="file" id="image"
-                                                                                        name="image"
+                                                                                    <input
                                                                                         class="form-control @error('image') is-invalid @enderror"
+                                                                                        id="image" name="image"
+                                                                                        type="file"
                                                                                         value="{{ $category->image }}">
                                                                                     @error('image')
                                                                                         <div class="invalid-feedback">
@@ -248,8 +248,9 @@
                                                                                 <div class="form-group mt-3">
                                                                                     <label for="status">Do You Want To
                                                                                         Publish This Category?</label>
-                                                                                    <select name="status" id="status"
-                                                                                        class="form-select mb-3 @error('status') is-invalid @enderror">
+                                                                                    <select
+                                                                                        class="@error('status') is-invalid @enderror form-select mb-3"
+                                                                                        id="status" name="status">
                                                                                         <option value="" hidden>
                                                                                             Please Select Status</option>
                                                                                         <option value="0"
@@ -268,10 +269,11 @@
                                                                         </div>
                                                                     </div>
                                                                     <div class="modal-footer">
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-bs-dismiss="modal">Close</button>
-                                                                        <button type="submit" name="updateMain"
-                                                                            class="btn btn-primary">Update changes</button>
+                                                                        <button class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal"
+                                                                            type="button">Close</button>
+                                                                        <button class="btn btn-primary" name="updateMain"
+                                                                            type="submit">Update changes</button>
                                                                     </div>
                                                                 </form>
                                                             </div>
@@ -279,14 +281,13 @@
                                                     </div>
                                                     <!-- Delete Modal -->
                                                     <div class="modal fade" id="delete-{{ $category->slug }}"
-                                                        tabindex="-1" aria-hidden="true">
+                                                        aria-hidden="true" tabindex="-1">
                                                         <div class="modal-dialog modal-dialog-centered">
                                                             <div class="modal-content">
                                                                 <div class="modal-header">
                                                                     <h5 class="modal-title">Delete This Category</h5>
-                                                                    <button type="button" class="btn-close"
-                                                                        data-bs-dismiss="modal"
-                                                                        aria-label="Close"></button>
+                                                                    <button class="btn-close" data-bs-dismiss="modal"
+                                                                        type="button" aria-label="Close"></button>
                                                                 </div>
                                                                 <div class="modal-body">
                                                                     <p>Are You Sure You Want To Delete This Category
@@ -297,10 +298,11 @@
                                                                         method="post">
                                                                         @csrf
                                                                         @method('DELETE')
-                                                                        <button type="button" class="btn btn-secondary"
-                                                                            data-bs-dismiss="modal">Close</button>
-                                                                        <button type="submit" name="deleteMain"
-                                                                            class="btn btn-danger">Delete Category</button>
+                                                                        <button class="btn btn-secondary"
+                                                                            data-bs-dismiss="modal"
+                                                                            type="button">Close</button>
+                                                                        <button class="btn btn-danger" name="deleteMain"
+                                                                            type="submit">Delete Category</button>
                                                                     </form>
                                                                 </div>
                                                             </div>

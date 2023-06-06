@@ -19,8 +19,15 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::with('category:id,name')->orderDesc()->get();
-        $categories = Category::select('id', 'name')->with(['products:id,code,category_id,status', 'parentCategory:id,name', 'childrenCat:id,name,is_parent'])->parent()->orderAsc()->get();
+        $products = Product::with('category')
+            ->desc('id')
+            ->get();
+        $categories = Category::select('id', 'name')
+            ->with(['products', 'parentCategory', 'childrenCat'])
+            ->parent()
+            ->asc('name')
+            ->get();
+
         return view('backend.pages.products.manage', compact('products', 'categories'));
     }
 
@@ -29,7 +36,13 @@ class ProductController extends Controller
      */
     public function create()
     {
-        return view('backend.pages.products.create');
+        $parentCat = Category::select('id', 'name')
+            ->with(['products', 'parentCategory', 'childrenCat'])
+            ->parent()
+            ->asc('name')
+            ->get();
+
+        return view('backend.pages.products.create', compact('parentCat'));
     }
 
     /**
@@ -48,16 +61,17 @@ class ProductController extends Controller
         try {
             $request->validated(); // Validate the incoming request data
 
-            $file = $request->file('code'); // Get the uploaded file
+            $file        = $request->file('code'); // Get the uploaded file
             $category_id = $request->input('category_id'); // Get the selected category ID
 
             Excel::import(new CodeImport($category_id), $file); // Import the data from the file
+
             return redirect()->route('product.manage');
 
         } catch (QueryException $e) {
             $errorCode = $e->errorInfo[1];
-
-            if ($errorCode == 1062) { // Duplicate entry error code
+            if ($errorCode == 1062) {
+                // Duplicate entry error code
                 return back()->withErrors(['code' => 'The code already exists.'])->withInput();
             } else {
                 return back()->withErrors(['error' => 'Error importing file. Please try again.'])->withInput();
@@ -69,6 +83,7 @@ class ProductController extends Controller
     {
         $products = Product::with('category')->get(['code', 'category_id', 'status']);
         $fileName = 'codes_' . Carbon::now()->setTimezone('+6')->format('d-M-y_h-i-a') . '.csv';
+
         return Excel::download(new CodeExport($products), $fileName);
     }
 
@@ -78,9 +93,7 @@ class ProductController extends Controller
     public function update(Product $product, ProductRequest $request)
     {
         $product = $product;
-
         $product->update($request->validated());
-        $product->save();
 
         return redirect()->route('product.manage');
     }
@@ -92,7 +105,7 @@ class ProductController extends Controller
     {
         $product = $product;
         $product->delete();
-        
+
         return redirect()->route('product.manage');
     }
 }

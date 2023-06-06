@@ -16,9 +16,9 @@ class Product extends Model
     ];
 
     //Query Scopes
-    public function scopeOrderDesc($query)
+    public function scopeDesc($query, $value)
     {
-        return $query->orderBy('id', 'desc');
+        return $query->orderBy($value, 'desc');
     }
 
     //Relations

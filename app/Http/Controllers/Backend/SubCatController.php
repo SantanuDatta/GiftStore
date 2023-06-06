@@ -14,8 +14,9 @@ class SubCatController extends Controller
      */
     public function index()
     {
-        $categories = Category::whereHas('parentCategory')->with('parentCategory:id,name')->orderAsc()->get();
-        $parentCat = Category::select('id', 'name')->parent()->orderAsc()->get();
+        $categories = Category::whereHas('parentCategory')->with('parentCategory')->asc('name')->get();
+        $parentCat  = Category::parent()->asc('name')->pluck('name', 'id');
+
         return view('backend.pages.categories.sub.manage', compact('categories', 'parentCat'));
     }
 
@@ -24,8 +25,7 @@ class SubCatController extends Controller
      */
     public function store(CategoryService $categoryService, SubCatRequest $request)
     {
-        $subCat = Category::create($request->validated());
-        $categoryService->storeSub($subCat);
+        $categoryService->storeSub($request->validated());
 
         return redirect()->route('sub.category');
     }
@@ -35,11 +35,7 @@ class SubCatController extends Controller
      */
     public function update(Category $category, CategoryService $categoryService, SubCatRequest $request)
     {
-        $subCat = $category;
-        $oldImage = $subCat->image;
-
-        $subCat->update($request->validated());
-        $categoryService->updateSub($oldImage, $subCat);
+        $categoryService->updateSub($category, $request->validated());
 
         return redirect()->route('sub.category');
     }
@@ -49,8 +45,7 @@ class SubCatController extends Controller
      */
     public function destroy(Category $category, CategoryService $categoryService)
     {
-        $subCat = $category;
-        $categoryService->deleteSub($subCat);
+        $categoryService->deleteSub($category);
 
         return redirect()->route('sub.category');
     }

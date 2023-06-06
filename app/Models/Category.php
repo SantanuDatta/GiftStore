@@ -28,9 +28,9 @@ class Category extends Model
     }
 
     //Query Scopes
-    public function scopeOrderAsc($query)
+    public function scopeAsc($query, $value)
     {
-        return $query->orderBy('name', 'asc');
+        return $query->orderBy($value, 'asc');
     }
 
     public function scopeParent($query)
