@@ -3,15 +3,14 @@ namespace App\Services;
 
 use App\Models\Category;
 use Illuminate\Support\Facades\Storage;
-use Illuminate\Support\Str;
 use Intervention\Image\Facades\Image;
 
 class CategoryService
 {
     //Main Category Store
-    public function storeMain($mainCat)
+    public function storeMain(array $mainCat): Category
     {
-        $mainCat = Category::create($mainCat);
+        $category = Category::create($mainCat);
         if (request()->hasFile('image')) {
             $image = request()->file('image');
 
@@ -22,20 +21,20 @@ class CategoryService
             $imageResize = Image::make($image);
             $imageResize->fit(300, 300)->save($location);
 
-            $mainCat->image = $img;
+            $category->image = $img;
+            $category->save();
         }
 
-        $mainCat->slug = Str::slug(request('name'));
-        $mainCat->save();
+        return $category;
     }
 
     //Main Category Update
-    public function updateMain(Category $mainCat)
+    public function updateMain(Category $category, array $mainCat): Category
     {
         if (request()->hasFile('image')) {
             // delete the old image file
-            if (!empty($mainCat->image)) {
-                Storage::disk('mainCat')->delete($mainCat->image);
+            if (!empty($category->image)) {
+                Storage::disk('mainCat')->delete($category->image);
             }
 
             // save the new image file
@@ -47,21 +46,18 @@ class CategoryService
             $imageResize->fit(300, 300)->save($location);
 
             // update the category record with the new image filename
-            $mainCat->image = $img;
+            $mainCat['image'] = $img;
         }
+        $category->update($mainCat);
 
-        $mainCat->slug = Str::slug(request('slug'));
-        $mainCat->update();
+        return $category;
     }
 
     //Main Category Delete
     public function deleteMain(Category $mainCat)
     {
         if ($mainCat->is_parent == 0) {
-            foreach (Category::where('is_parent', $mainCat->id)->get() as $sCat) {
-                $sCat->is_parent = 1;
-                $sCat->save();
-            }
+            Category::where('is_parent', $mainCat->id)->update(['is_parent' => 1]);
         }
 
         // delete the old image file
@@ -73,9 +69,9 @@ class CategoryService
     }
 
     //Sub Category Store
-    public function storeSub($subCat)
+    public function storeSub(array $subCat): Category
     {
-        $subCat = Category::create($subCat);
+        $category = Category::create($subCat);
         if (request()->hasFile('image')) {
             $image = request()->file('image');
 
@@ -86,19 +82,20 @@ class CategoryService
             $imageResize = Image::make($image);
             $imageResize->fit(300, 300)->save($location);
 
-            $subCat->image = $img;
+            $category->image = $img;
+            $category->save();
         }
 
-        $subCat->slug = Str::slug(request('name'));
+        return $category;
     }
 
     //Sub Category Update
-    public function updateSub(Category $subCat)
+    public function updateSub(Category $category, array $subCat): Category
     {
         if (request()->hasFile('image')) {
             // delete the old image file
-            if (!empty($subCat->image)) {
-                Storage::disk('subCat')->delete($subCat->image);
+            if (!empty($category->image)) {
+                Storage::disk('subCat')->delete($category->image);
             }
 
             // save the new image file
@@ -110,11 +107,11 @@ class CategoryService
             $imageResize->fit(300, 300)->save($location);
 
             // update the category record with the new image filename
-            $subCat->image = $img;
+            $subCat['image'] = $img;
         }
+        $category->update($subCat);
 
-        $subCat->slug = Str::slug(request('slug'));
-        $subCat->update();
+        return $category;
     }
 
     //Sub Category Delete
