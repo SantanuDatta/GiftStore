@@ -24,10 +24,10 @@ class ProductRequest extends FormRequest
     {
         return [
             'category_id' => ['required', 'exists:categories,id'],
-            'status' => ['filled'],
-            'code' => request()->hasFile('code')
-                ? ['required', 'file', 'mimes:csv,txt', Rule::unique('products', 'code')]
-                : ['required', Rule::unique('products', 'code')->ignore($this->product)],
+            'status'      => ['filled'],
+            'code'        => request()->hasFile('code')
+            ? ['required', 'file', 'mimes:csv,txt', Rule::unique('products', 'code')]
+            : ['required', Rule::unique('products', 'code')->ignore($this->product)],
         ];
     }
 }

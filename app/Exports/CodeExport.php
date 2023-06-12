@@ -2,7 +2,6 @@
 
 namespace App\Exports;
 
-use App\Models\Product;
 use Maatwebsite\Excel\Concerns\FromCollection;
 
 class CodeExport implements FromCollection
@@ -15,15 +14,15 @@ class CodeExport implements FromCollection
     }
 
     /**
-    * @return \Illuminate\Support\Collection
-    */
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         return $this->products->map(function ($product) {
             return [
-                'code' => $product->code,
+                'code'          => $product->code,
                 'category_name' => $product->category->name,
-                'status' => $product->status,
+                'status'        => $product->status,
             ];
         });
     }

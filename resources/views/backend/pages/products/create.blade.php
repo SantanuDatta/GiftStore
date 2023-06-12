@@ -87,8 +87,8 @@
                             <div class="card-body">
                                 <div class="col-12">
                                     <label class="form-label" for="code">Code</label>
-                                    <input class="form-control @error('code') is-invalid @enderror mb-3"
-                                        id="code" name="code" type="text" value="{{ old('code') }}"
+                                    <input class="form-control @error('code') is-invalid @enderror mb-3" id="code"
+                                        name="code" type="text" value="{{ old('code') }}"
                                         placeholder="Product title">
                                     @error('code')
                                         <div class="invalid-feedback">{{ $message }}</div>

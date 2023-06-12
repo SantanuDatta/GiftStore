@@ -32,7 +32,7 @@
                         </div>
                     </div>
                     <div class="col-xl-7">
-                        <img src="{{ asset('backend/images/error/404-error.png') }}" class="img-fluid" alt="">
+                        <img class="img-fluid" src="{{ asset('backend/images/error/404-error.png') }}" alt="">
                     </div>
                 </div>
                 <!--end row-->

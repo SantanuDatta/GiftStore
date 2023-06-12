@@ -31,15 +31,15 @@ class MainCatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required', 'min:5', 'max:25', Rule::unique('categories', 'name')->ignore($this->category)],
-            'slug' => ['filled', 'max:25', Rule::unique('categories', 'slug')->ignore($this->category)],
-            'is_parent' => ['nullable'],
-            'description' => ['nullable'],
+            'name'          => ['required', 'min:5', 'max:25', Rule::unique('categories', 'name')->ignore($this->category)],
+            'slug'          => ['filled', 'max:25', Rule::unique('categories', 'slug')->ignore($this->category)],
+            'is_parent'     => ['nullable'],
+            'description'   => ['nullable'],
             'regular_price' => ['nullable'],
-            'discount' => ['nullable'],
-            'image' => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
-            'is_featured' => ['nullable'],
-            'status' => ['required'],
+            'discount'      => ['nullable'],
+            'image'         => ['nullable', 'image', 'mimes:jpeg,png,jpg', 'max:2048'],
+            'is_featured'   => ['nullable'],
+            'status'        => ['required'],
         ];
     }
 }

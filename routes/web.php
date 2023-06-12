@@ -1,14 +1,14 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Backend\BackendController;
 //Frontend
-use App\Http\Controllers\Frontend\FrontendController;
+use App\Http\Controllers\Backend\MainCatController;
 
 //Backend
-use App\Http\Controllers\Backend\BackendController;
-use App\Http\Controllers\Backend\MainCatController;
 use App\Http\Controllers\Backend\ProductController;
 use App\Http\Controllers\Backend\SubCatController;
+use App\Http\Controllers\Frontend\FrontendController;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,7 +19,7 @@ use App\Http\Controllers\Backend\SubCatController;
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 //Home
 Route::get('/', [FrontendController::class, 'home'])->name('home');
@@ -35,7 +35,7 @@ Route::get('/single', [FrontendController::class, 'single'])->name('single');
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
 |
-*/
+ */
 
 Route::prefix('/admin')->group(function () {
     Route::get('/dashboard', [BackendController::class, 'index'])->name('dashboard');
@@ -55,7 +55,7 @@ Route::prefix('/admin')->group(function () {
         Route::delete('/delete-sub/{category}', [SubCatController::class, 'destroy'])->name('sub.delete');
     });
 
-    Route::prefix('/product')->group(function(){
+    Route::prefix('/product')->group(function () {
         Route::get('/', [ProductController::class, 'index'])->name('product.manage');
         Route::get('/create', [ProductController::class, 'create'])->name('product.create');
         Route::post('/store', [ProductController::class, 'store'])->name('product.store');
