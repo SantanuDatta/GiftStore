@@ -8,13 +8,13 @@
         "php": "^8.3.0",
         "guzzlehttp/guzzle": "^7.8.1",
         "intervention/image": "^2.7.2",
-        "laravel/framework": "^11.0.3",
+        "laravel/framework": "^11.0.6",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9.0",
         "maatwebsite/excel": "^3.1.55"
     },
     "require-dev": {
-        "barryvdh/laravel-debugbar": "^3.12.1",
+        "barryvdh/laravel-debugbar": "^3.12.2",
         "barryvdh/laravel-ide-helper": "^3.0",
         "fakerphp/faker": "^1.23.1",
         "laravel/breeze": "^2.0",
