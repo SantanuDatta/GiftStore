@@ -10,32 +10,10 @@ use App\Http\Controllers\Backend\SubCatController;
 use App\Http\Controllers\Frontend\FrontendController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Frontend Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
- */
-
 //Home
 Route::get('/', [FrontendController::class, 'home'])->name('home');
 Route::get('/shop', [FrontendController::class, 'shop'])->name('shop');
 Route::get('/single', [FrontendController::class, 'single'])->name('single');
-
-/*
-|--------------------------------------------------------------------------
-| Backend Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
- */
 
 Route::prefix('/admin')->group(function () {
     Route::get('/dashboard', [BackendController::class, 'index'])->name('dashboard');
